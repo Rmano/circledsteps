@@ -1,0 +1,72 @@
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}[1996/06/01]
+\ProvidesPackage{circledsteps}[2019/06/19 v1.0 Circled steps that you can reference]
+%    \end{macrocode}
+%
+% Copyright (c) 2019 Romano Giannetti
+% Heavily helped by @marmot and other on
+% https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
+% License: LPPL 1.3c
+%
+%    \begin{macrocode}
+\RequirePackage{pict2e}
+\RequirePackage{picture}
+\RequirePackage{pgfkeys} % for the pgfkeys
+\pgfkeys{/csteps/inner ysep/.initial=4pt,
+    /csteps/inner xsep/.initial=4pt,
+    /csteps/inner color/.initial=red,
+    /csteps/outer color/.initial=blue,
+}
+\newsavebox\csteps@CBox
+\newlength\csteps@XLength \newlength\csteps@YLength \newlength\csteps@YDepth \newlength\csteps@tmplen
+\def\csteps@CircledParam#1#2{\sbox\csteps@CBox{#2}%
+    \csteps@XLength=\wd\csteps@CBox\advance\csteps@XLength by\pgfkeysvalueof{/csteps/inner xsep}\relax
+    \csteps@tmplen=\pgfkeysvalueof{/csteps/inner ysep}\relax
+    \csteps@YDepth=\dp\csteps@CBox\advance\csteps@YDepth by 0.5\csteps@tmplen\relax
+    \csteps@YLength=\ht\csteps@CBox\advance\csteps@YLength by\dp\csteps@CBox\advance\csteps@YLength by\pgfkeysvalueof{/csteps/inner ysep}\relax
+    % \typeout{DBG:#2\space X:\the\csteps@XLength\space Y:\the\csteps@YLength\space D:\the\csteps@YDepth}%
+    \raisebox{-#1\csteps@YDepth}{%
+    \ifdim\csteps@XLength>\csteps@YLength
+    \makebox[\csteps@XLength]{% X bigger than Y
+        \makebox(0,\csteps@YLength){%
+            \color{\pgfkeysvalueof{/csteps/outer color}}\put(0,0){\oval(\csteps@XLength,\csteps@YLength)}%
+        }%
+    \makebox(0,\csteps@YLength){%
+        \put(-.5\wd\csteps@CBox,0){\textcolor{\pgfkeysvalueof{/csteps/inner color}}{#2}}%
+    }}%
+    \else
+    \makebox[\csteps@YLength]{%
+        \makebox(0,\csteps@YLength){%
+            \color{\pgfkeysvalueof{/csteps/outer color}}\put(0,0){\circle{\csteps@YLength}}%
+        }%
+    \makebox(0,\csteps@YLength){%
+        \put(-.5\wd\csteps@CBox,0){\textcolor{\pgfkeysvalueof{/csteps/inner color}}{#2}}%
+     }}%
+    \fi
+    }%
+}
+%    \end{macrocode}
+% Main commands:
+%    \begin{macrocode}
+\def\Circled#1{\csteps@CircledParam{1}{#1}}
+\def\CircledTop#1{\csteps@CircledParam{0}{#1}}
+\newcommand{\CircledText}[1]{%
+    \begingroup
+    \tikzset{/csteps/inner color=., /csteps/outer color=.}%
+    \Circled{#1}%
+    \endgroup
+}
+%    \end{macrocode}
+% Automatic counters code
+%    \begin{macrocode}
+\newcounter{cstepcnt}
+\newcommand{\startcstep}{\setcounter{cstepcnt}{0}}
+\newcommand{\resetcstep}{\setcounter{cstepcnt}{0}}
+\newcommand{\cstep}{%
+    \refstepcounter{cstepcnt}%
+    \Circled{\scriptsize\arabic{cstepcnt}}%
+}
+\renewcommand{\thecstepcnt}{\textbf{\arabic{cstepcnt}:}}
+%    \end{macrocode}
+%
+%

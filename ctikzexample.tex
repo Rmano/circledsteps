@@ -1,0 +1,27 @@
+\begin{circuitikz}[scale=0.9, baseline=(VCC), transform shape]
+    \draw (0,0)  node[ground](GND){} to[V=$v_s$] ++(0,2)
+    to[R, l2^=$R_1$ and \SI{1}{k\ohm}, l2 valign=b] ++(2,0) coordinate(firstb);
+    \node [above] at(firstb) {\cstep\label{c:b1}};
+    \node [below] at(firstb) {0};
+    \draw (firstb) node[npn, anchor=B](Q1){};
+    \draw (Q1.E) node[left]{\num{-0.7}\cstep};
+    \draw (Q1.C) to[R, l2_=$R_2$ and \SI{5}{k\ohm}, f<=\num{0.93}] ++(0,2.5) 
+        node[vcc](VCC){$V_{CC}=\SI{10}{V}$} ;
+    \draw (Q1.E) to[R, l2_=$R_3$ and \SI{10}{k\ohm},
+    f=\num{0.93}] ++(0,-2.5) node[vee](VEE){$V_{EE}=\SI{-10}{V}$}
+        node[left]{\cstep\label{c:ie1}};
+    \path (VCC) node[right]{\cstep\label{c:ic1}};
+    \draw (Q1.E) -- ++(1,0) coordinate(tmp) to[C=$C_1$] (tmp |- GND) node[ground]{};
+    \draw (Q1.C) -- ++(1,0) coordinate(g1) to[short, -o] ++(1,0);
+    \node [above] at(g1) {\cstep\label{c:g1}};
+    \node [below] at(g1) {\num{5.35}};
+\end{circuitikz}\quad
+\begin{minipage}[t]{0.5\linewidth}
+    %% minipage reset these..
+    \parindent=0pt\parskip=6pt plus 6pt minus 2pt\relax
+    \ref{c:b1} let's neglect (to be confirmed!) $I_B$, $V_B\approx\SI{0}{V}$;\par
+    \ref{c:ie1} $I_{E1_Q}=(V_{E1_Q}-V_{EE})/R_3$;\par
+    \ref{c:ic1} $I_{C1_Q} \approx\SI{0.93}{mA}$;\par
+    \ref{c:g1} $V_{CC}-R_2I_{C2_Q}= \SI{5.35}{V}$; $V_{CE1_Q}=\SI{6.05}{V}$;\par
+\end{minipage}
+

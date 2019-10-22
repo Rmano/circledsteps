@@ -1,0 +1,67 @@
+#
+circledsteps-manual.pdf
+circledsteps.dtx
+circledsteps.ins
+circledsteps.zip
+circledsteps/*
+
+# showexpl generates .tmp
+*.tmp
+
+# gitignore para los archivos latex
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc*
+*.out
+*.synctex.gz
+*.idv
+*.ptc
+*.bak
+# vim swap files
+*.swp
+
+
+# para evitar los vídeos
+*.ogv
+
+# para evitar los backups del editor
+*~
+.#*
+\#*
+
+# para evitar los archivos de latexmk
+*latexmk
+*.fls
+
+# Python things
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# IPython
+profile_default/
+ipython_config.py
+
