@@ -14,7 +14,7 @@ ctan-plain: manual
 	mkdir -p ./circledsteps
 	cp README.md lppl-*.txt ./circledsteps
 	cp circledsteps.sty circledsteps-manual.tex ./circledsteps
-	cp circledsteps-manual.pdf  ./circledsteps/
+	cp circledsteps-manual.pdf  ctikzexample.tex ./circledsteps/
 	zip -r --from-crlf circledsteps.zip ./circledsteps/
 
 clean:

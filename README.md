@@ -1,12 +1,12 @@
 ## Package `circledsteps` for LaTeX
 
-A package to generate circled numbers to mark "steps" in procedure, exercises, and so on.
+A package to generate circled numbers (or other kind of markers or small text) to mark "steps" in procedure, exercises, and so on.
 
 See [this question on tex.stackexchange.com](https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers)
 
 ### DOCUMENTATION
 
-See the included file `circledsteps-manual.tex`; you can compile it running (twice) `pdflatex` on it.
+See the included file `circledsteps-manual.tex`; you can compile it running (twice) `pdflatex` on it. If you want to have a look before buying, you can find a compiled copy on the [release page](https://github.com/Rmano/circledsteps/releases).
 
 If you have already installed the package in your TeX distribution, use `texdoc circledsteps`; it should show you the manual of the installed version of the package.
 

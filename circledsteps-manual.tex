@@ -32,7 +32,7 @@
 
 \section{Introduction}
 
-This package was born thanks to the discussion on \href{https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers}{tex.stackexchange.com}, and to the help of the several authors that contributed to the answers. The base idea is to have a command that can create arbitrary ``circled'' text (numbers or letters) and that can work in normal text \textbf{and} in a node in a \texttt{tikzpicure} or derivative. That forbid to use \texttt{Ti\emph{k}Z} itself for the circles --- you can't safely nest \texttt{tikzpictures}s.
+This package was born thanks to the discussion on \href{https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers}{tex.stackexchange.com}, and with the help of the several authors that contributed to the answers. The base idea is to have a command that can create arbitrary ``circled'' text (numbers or letters) and that can work in normal text \textbf{and} in a node in a \texttt{tikzpicure} or derivative. That forbid to use \texttt{Ti\emph{k}Z} itself for the circles --- you can't safely nest \texttt{tikzpicture}s.
 
 This package provides two things: the first one, macros to generate the circled text that use the original \texttt{pict2e} method, and then a (simple, to be taken as an example) set of macro to generate sequential circled numbers that can be referenced afterward.
 
@@ -44,7 +44,7 @@ The basic commands are:
     \toprule
     Circled\{\} & circled text using the package colors, text on the baseline\\
     CircledTop\{\} & circled text using the package colors, circle on the baseline\\
-    CircledText\{\} & circled text using the current color (may fail\footnotemark in moving arguments)\\
+    CircledText\{\} & circled text using the current color (may fail\footnotemark{} in moving arguments)\\
     \bottomrule
 \end{tabular}
 \footnotetext{in the sense it can select the wrong color.}
