@@ -15,8 +15,8 @@ ctan-plain: manual
 	cp README.md lppl-*.txt ./circledsteps
 	cp circledsteps.sty circledsteps-manual.tex ./circledsteps
 	cp circledsteps-manual.pdf  ctikzexample.tex ./circledsteps/
-	zip -r --from-crlf circledsteps.zip ./circledsteps/
+	zip -r --from-crlf circledsteps-ctan.zip ./circledsteps/
 
 clean:
 	latexmk -C circledsteps-manual.tex
-	rm -rf ./circledsteps circledsteps.zip
+	rm -rf ./circledsteps circledsteps-ctan.zip
