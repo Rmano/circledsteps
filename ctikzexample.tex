@@ -1,3 +1,5 @@
+\tikzset{/csteps/inner color=red, /csteps/outer color=blue}
+\newcommand{\circref}[1]{\CircledText{\small\textbf{\ref{#1}}}:}
 \begin{circuitikz}[scale=0.9, baseline=(VCC), transform shape]
     \draw (0,0)  node[ground](GND){} to[V=$v_s$] ++(0,2)
     to[R, l2^=$R_1$ and \SI{1}{k\ohm}, l2 valign=b] ++(2,0) coordinate(firstb);
@@ -19,9 +21,9 @@
 \begin{minipage}[t]{0.5\linewidth}
     %% minipage reset these..
     \parindent=0pt\parskip=6pt plus 6pt minus 2pt\relax
-    \ref{c:b1} let's neglect (to be confirmed!) $I_B$, $V_B\approx\SI{0}{V}$;\par
-    \ref{c:ie1} $I_{E1_Q}=(V_{E1_Q}-V_{EE})/R_3$;\par
-    \ref{c:ic1} $I_{C1_Q} \approx\SI{0.93}{mA}$;\par
-    \ref{c:g1} $V_{CC}-R_2I_{C2_Q}= \SI{5.35}{V}$; $V_{CE1_Q}=\SI{6.05}{V}$;\par
+    \circref{c:b1} let's neglect (to be confirmed!) $I_B$, $V_B\approx\SI{0}{V}$;\par
+    \circref{c:ie1} $I_{E1_Q}=(V_{E1_Q}-V_{EE})/R_3$;\par
+    \circref{c:ic1} $I_{C1_Q} \approx\SI{0.93}{mA}$;\par
+    \circref{c:g1} $V_{CC}-R_2I_{C2_Q}= \SI{5.35}{V}$; $V_{CE1_Q}=\SI{6.05}{V}$;\par
 \end{minipage}
 

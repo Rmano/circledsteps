@@ -44,12 +44,13 @@ The basic commands are:
     \toprule
     Circled\{\} & circled text using the package colors, text on the baseline\\
     CircledTop\{\} & circled text using the package colors, circle on the baseline\\
-    CircledText\{\} & circled text using the current color (may fail\footnotemark{} in moving arguments)\\
+    CircledText\{\} & circled text using the current color (may fail\footnotemark{} across pages break in header or footers)\\
     \bottomrule
 \end{tabular}
 \footnotetext{in the sense it can select the wrong color.}
 
 The parameters for the output are controlled using \texttt{pgfkeys}; you can change them with \verb|\tikzset|; you can obviously limit the effect of change using normal \LaTeX{} scoping rules.
+The pseudo-color \texttt{none} means that the current color is used for both the text and the circle.
 
 \begin{tabular}{>{\ttfamily}lll}
     \toprule
@@ -57,8 +58,8 @@ The parameters for the output are controlled using \texttt{pgfkeys}; you can cha
     \midrule
     /csteps/inner ysep  & vertical spacing & 4pt\\
     /csteps/inner xsep  & horizontal spacing & 4pt\\
-    /csteps/inner color & color of the text  & red\\
-    /csteps/outer color & color of the circle & blue\\
+    /csteps/inner color & color of the text  & none\\
+    /csteps/outer color & color of the circle & none\\
     \bottomrule
 \end{tabular}
 
@@ -102,19 +103,23 @@ If you want to change colors it's easy:
 \par\bigskip
 \end{LTXexample}
 
+If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
+
+\begin{lstlisting}[]
+    \tikzset{/csteps/inner color=red, /csteps/outer color=blue}
+\end{lstlisting}
+
 \begin{LTXexample}
 Or even you can have inline numbers like \CircledText{1} or
 exponents\textsuperscript{\CircledText{2}} and so on.
 \textcolor{red}{They follow the current color:  \CircledText{1} and \CircledText{2} automatically,} as you can see:  \CircledText{$1+1\approx3$}. In-text circled numbers look better when a bit smaller, though, as you can see in {\small\CircledText{1}} for example.
 \end{LTXexample}
 
-Notice that \verb|\CircledText{}| uses the special ``\texttt{.}'' color defined by \texttt{xcolor}; when page breaks occurs it can get the wrong color.
-
 No, you can't fill the circle/oval. Pull requests in that sense are welcome.
 
 \section{Automatically generated numbers}
 
-The command \verb|\cstep| will generate a circled number, starting from \texttt{1}, that can be referenced with the normal \verb|\label| mechanism. You can reset the numbering with 
+The command \verb|\cstep| will generate a circled number, starting from \texttt{1}, that can be referenced with the normal \verb|\label| mechanism. You can reset the numbering with
 \verb|\startcstep|. For example:
 
 \input{ctikzexample.tex}
@@ -125,12 +130,12 @@ The command \verb|\cstep| will generate a circled number, starting from \texttt{
 
 \section{Personalize it!}
 
-The definition of \verb|CircledTexT| is simply the following one; you can get idea and define your own easily (beware of spaces at the end of the lines, though!): 
+The definition of \verb|CircledTexT| is simply the following one; you can get idea and define your own easily (beware of spaces at the end of the lines, though!):
 
 \begin{lstlisting}
 \newcommand{\CircledText}[1]{%
     \begingroup
-    \tikzset{/csteps/inner color=., /csteps/outer color=.}%
+    \tikzset{/csteps/inner color=none, /csteps/outer color=none,}
     \Circled{#1}%
     \endgroup
 }
@@ -147,7 +152,7 @@ Also the implementation of the \verb|\cstep| command and relatives is quite simp
     \refstepcounter{cstepcnt}%
     \Circled{\scriptsize\arabic{cstepcnt}}%
 }
-\renewcommand{\thecstepcnt}{\textbf{\arabic{cstepcnt}:}}
+\renewcommand{\thecstepcnt}{\arabic{cstepcnt}}
 \end{lstlisting}
 
 
