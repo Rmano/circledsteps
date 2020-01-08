@@ -16,10 +16,10 @@
     urlcolor=blue,            % color of external links
 }
 \usepackage{showexpl}
-\lstset{pos=t, overhang=0pt,hsep=\columnsep,vsep=\bigskipamount,
+\lstset{pos=l, overhang=0pt,hsep=\columnsep,vsep=\bigskipamount,
     rframe=single,numbers=left,numberstyle=\tiny,numbersep=.3em, xleftmargin=1em,
     columns=flexible, language=[LaTeX]TEX,breaklines=true,
-    basicstyle=\small\ttfamily,tabsize=3, varwidth}
+    basicstyle=\small\ttfamily,tabsize=3, width=0.4\linewidth}
 \usepackage{circledsteps}
 
 \title{The \texttt{circledsteps} package: circled numbers, circled steps and more}
@@ -36,20 +36,35 @@ This package was born thanks to the discussion on \href{https://tex.stackexchang
 
 This package provides two things: the first one, macros to generate the circled text that use the original \texttt{pict2e} method, and then a (simple, to be taken as an example) set of macro to generate sequential circled numbers that can be referenced afterward.
 
+The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{pictures}, \texttt{xcolor} and \texttt{pgfkeys} (the latter one is automatically loaded by \texttt{tikz}; you do not need \texttt{tikz} to use just \texttt{circledsteps}).
+
+The manual is for version~\cstepsversion. The main changes between version are listed below.
+\begin{description}
+    \item[v1.2] Added optional argument to the commands and make them sensitive to math mode (thanks to \texttt{@tallmarmot} for the suggestion and example code); fixed several bugs.
+    \item[v1.1] Default to normal colors; keep the ``red/blue'' theme as optional.
+        If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
+        \begin{lstlisting}[]
+    \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}
+        \end{lstlisting}
+    \item[v1.0] Initial release.
+\end{description}
+
+
 \section{Basic commands}
 
 The basic commands are:
 
 \begin{tabular}{>{\ttfamily\textbackslash}ll}
     \toprule
-    Circled\{\} & circled text using the package colors, text on the baseline\\
-    CircledTop\{\} & circled text using the package colors, circle on the baseline\\
-    CircledText\{\} & circled text using the current color (may fail\footnotemark{} across pages break in header or footers)\\
+    Circled[]\{\} & circled text using the package colors, text on the baseline\\
+    CircledTop[]\{\} & circled text using the package colors, circle on the baseline\\
+    CircledText[]\{\} & circled text using the current color\footnotemark{}\\
     \bottomrule
 \end{tabular}
-\footnotetext{in the sense it can select the wrong color.}
+\footnotetext{it may fail when used in headers or footers, in the sense it can select the wrong color in case of page breaks.}
 
-The parameters for the output are controlled using \texttt{pgfkeys}; you can change them with \verb|\tikzset|; you can obviously limit the effect of change using normal \LaTeX{} scoping rules.
+The parameters for the output are controlled using \texttt{pgfkeys}; you can change them with \verb|\pgfkeys| or \verb|\tikzset|; you can obviously limit the effect of change using normal \LaTeX{} scoping rules. Also, you can specify parameters (without the initial \texttt{/csteps/} as optional arguments to the commands.
+
 The pseudo-color \texttt{none} means that the current color is used for both the text and the circle.
 
 \begin{tabular}{>{\ttfamily}lll}
@@ -63,12 +78,14 @@ The pseudo-color \texttt{none} means that the current color is used for both the
     \bottomrule
 \end{tabular}
 
-The working of the package is better explained with examples.
+The usage of the package is better explained with examples.
+
 
 \begin{LTXexample}
-This is normal text: \Circled{1} is on the baseline, \CircledTop{2} is on top.
-
-This is more evident if you have descendents, like p:\Circled{p} and \CircledTop{p}.
+This is normal text: \Circled{1} is on the baseline, \CircledTop{2} is on top.\par
+This is more evident if you have descendents, like p: \Circled{p} and \CircledTop{p}.\par
+You can set options as optional arguments, like \Circled[inner color=red]{R} or \CircledTop[outer color=green]{g}.\par
+Math mode is detected too: \Circled{A} and $\Circled{A}^{\Circled{A}}$.
 \end{LTXexample}
 
 
@@ -80,34 +97,33 @@ For big horizontal things the circle becomes oval: \Circled{200} or \CircledTop{
 \begin{LTXexample}
 Inside \texttt{tikz} they work ok:
 
+\tikzset{/csteps/outer color=green!30!black}
 \begin{tikzpicture}[scale=0.8, rotate=30,
     text width=3cm, transform shape]
-    \node [draw,color=purple]{text \Circled{1}};
+    \node [draw,color=purple]{text \Circled{1}
+        \Circled[inner color=blue]{2}};
 \end{tikzpicture}
 \end{LTXexample}
 
 
 \begin{LTXexample}
-\tikzset{/csteps/inner ysep=10pt}
-\tikzset{/csteps/inner xsep=10pt}
+\pgfkeys{/csteps/inner ysep=10pt}
+\pgfkeys{/csteps/inner xsep=10pt}
 If you like more breathing space:
 \Circled{1}  \Circled{2} \Circled{p} \Circled{200} \Circled{199}.
 \par\bigskip
 \end{LTXexample}
 
 \begin{LTXexample}
-\tikzset{/csteps/inner color=green}
-\tikzset{/csteps/outer color=gray}
+\pgfkeys{/csteps/inner color=green}
+\pgfkeys{/csteps/outer color=gray}
 If you want to change colors it's easy:
 \Circled{1}  \Circled{2} \Circled{p} \Circled{200} \Circled{199}.
 \par\bigskip
 \end{LTXexample}
 
-If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
 
-\begin{lstlisting}[]
-    \tikzset{/csteps/inner color=red, /csteps/outer color=blue}
-\end{lstlisting}
+
 
 \begin{LTXexample}
 Or even you can have inline numbers like \CircledText{1} or
@@ -115,16 +131,28 @@ exponents\textsuperscript{\CircledText{2}} and so on.
 \textcolor{red}{They follow the current color:  \CircledText{1} and \CircledText{2} automatically,} as you can see:  \CircledText{$1+1\approx3$}. In-text circled numbers look better when a bit smaller, though, as you can see in {\small\CircledText{1}} for example.
 \end{LTXexample}
 
+You can have also quite nice math mode effects, thanks to suggestion from \texttt{@tallmarmot}:
+
+\begin{LTXexample}
+    \[\Circled[outer color=red]{x}\]
+    \[\int\limits_{-1}^1\!\mathrm{d}x\,f_{\ell_1}(x)\]
+    \[\Circled[outer color=blue]{\int\limits_{-1}^1}\!
+        \Circled[outer color=orange]{\mathrm{d}x}
+    f_{\Circled[outer color=red]{\ell}_{\Circled[outer color=cyan]{1}}}(x)\]
+\end{LTXexample}
+
+
 No, you can't fill the circle/oval. Pull requests in that sense are welcome.
 
 \section{Automatically generated numbers}
 
-The command \verb|\cstep| will generate a circled number, starting from \texttt{1}, that can be referenced with the normal \verb|\label| mechanism. You can reset the numbering with
+The command \verb|\cstep| will generate a circled number, starting from \texttt{1}, that can be referenced with the normal \verb|\label|/\verb|\ref| mechanism.\footnote{Notice that in the example the numbers in the references one the right are blue to to \texttt{hyperref} configuration!} You can reset the numbering with
 \verb|\startcstep|. For example:
 
 \input{ctikzexample.tex}
 
 \lstinputlisting{ctikzexample.tex}
+
 
 \bigskip
 
@@ -133,14 +161,12 @@ The command \verb|\cstep| will generate a circled number, starting from \texttt{
 The definition of \verb|CircledTexT| is simply the following one; you can get idea and define your own easily (beware of spaces at the end of the lines, though!):
 
 \begin{lstlisting}
-\newcommand{\CircledText}[1]{%
-    \begingroup
-    \tikzset{/csteps/inner color=none, /csteps/outer color=none,}
-    \Circled{#1}%
-    \endgroup
+\newcommand{\CircledText}[2][]{%
+    \csteps@CircledParamOpts{inner color=none, outer color=none, #1}{1}{#2}%
 }
 \end{lstlisting}
 
+where \verb|\CircledParamOpts| is a macro with three arguments: the first one is the list of options (without the \texttt{/csteps/} part), the second one is 1 is you want the circle content on the baseline and 0 if you want it on top of it, and finally the third one is the text to be ``circled''.
 
 Also the implementation of the \verb|\cstep| command and relatives is quite simple, and you can play a lot with it to change things (formats, colors, the type of numbering, and so on):
 
