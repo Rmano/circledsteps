@@ -40,7 +40,7 @@
     \csteps@YDepth=\dp\csteps@CBox\advance\csteps@YDepth by 0.5\csteps@tmplen\relax
     \csteps@YLength=\ht\csteps@CBox\advance\csteps@YLength by\dp\csteps@CBox\advance\csteps@YLength by\pgfkeysvalueof{/csteps/inner ysep}\relax
     % \typeout{DBG:#2\space X:\the\csteps@XLength\space Y:\the\csteps@YLength\space D:\the\csteps@YDepth}%
-    \typeout{DBG\space inner:\csteps@innercolor\space outer:\csteps@outercolor\space ARG2:#2}%
+    % \typeout{DBG\space inner:\csteps@innercolor\space outer:\csteps@outercolor\space ARG2:#2}%
     \raisebox{-#1\csteps@YDepth}{%
     \ifdim\csteps@XLength>\csteps@YLength
     \makebox[\csteps@XLength]{% X bigger than Y
