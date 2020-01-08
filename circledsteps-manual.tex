@@ -36,10 +36,16 @@ This package was born thanks to the discussion on \href{https://tex.stackexchang
 
 This package provides two things: the first one, macros to generate the circled text that use the original \texttt{pict2e} method, and then a (simple, to be taken as an example) set of macro to generate sequential circled numbers that can be referenced afterward.
 
+The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{pictures}, \texttt{xcolor} and \texttt{pgfkeys} (the latter one is automatically loaded by \texttt{tikz}; you do not need \texttt{tikz} to use just \texttt{circledsteps}).
+
 The manual is for version~\cstepsversion. The main changes between version are listed below.
 \begin{description}
     \item[v1.2] Added optional argument to the commands and make them sensitive to math mode (thanks to \texttt{@tallmarmot} for the suggestion and example code); fixed several bugs.
     \item[v1.1] Default to normal colors; keep the ``red/blue'' theme as optional.
+        If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
+        \begin{lstlisting}[]
+    \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}
+        \end{lstlisting}
     \item[v1.0] Initial release.
 \end{description}
 
@@ -91,16 +97,18 @@ For big horizontal things the circle becomes oval: \Circled{200} or \CircledTop{
 \begin{LTXexample}
 Inside \texttt{tikz} they work ok:
 
+\tikzset{/csteps/outer color=green!30!black}
 \begin{tikzpicture}[scale=0.8, rotate=30,
     text width=3cm, transform shape]
-    \node [draw,color=purple]{text \Circled{1}};
+    \node [draw,color=purple]{text \Circled{1}
+        \Circled[inner color=blue]{2}};
 \end{tikzpicture}
 \end{LTXexample}
 
 
 \begin{LTXexample}
-\tikzset{/csteps/inner ysep=10pt}
-\tikzset{/csteps/inner xsep=10pt}
+\pgfkeys{/csteps/inner ysep=10pt}
+\pgfkeys{/csteps/inner xsep=10pt}
 If you like more breathing space:
 \Circled{1}  \Circled{2} \Circled{p} \Circled{200} \Circled{199}.
 \par\bigskip
@@ -114,11 +122,8 @@ If you want to change colors it's easy:
 \par\bigskip
 \end{LTXexample}
 
-If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
 
-\begin{lstlisting}[]
-    \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}
-\end{lstlisting}
+
 
 \begin{LTXexample}
 Or even you can have inline numbers like \CircledText{1} or
@@ -161,7 +166,7 @@ The definition of \verb|CircledTexT| is simply the following one; you can get id
 }
 \end{lstlisting}
 
-where \verb|\CircledParamOpts| is a macro with three arguments: the first one is the list of options (without the \texttt{/csteps/} part), the second one is 1 is you want the circle content on the baseline and 0 if you want it on top of it, and finally the third one is the text to be ``circled''. 
+where \verb|\CircledParamOpts| is a macro with three arguments: the first one is the list of options (without the \texttt{/csteps/} part), the second one is 1 is you want the circle content on the baseline and 0 if you want it on top of it, and finally the third one is the text to be ``circled''.
 
 Also the implementation of the \verb|\cstep| command and relatives is quite simple, and you can play a lot with it to change things (formats, colors, the type of numbering, and so on):
 
