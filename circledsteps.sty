@@ -1,6 +1,7 @@
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}[1996/06/01]
-\ProvidesPackage{circledsteps}[2019/11/01 v1.1 Circled steps that you can reference]
+\ProvidesPackage{circledsteps}[2020/01/08 v1.2 Circled steps that you can reference]
+\def\cstepsversion{v1.2}
 %    \end{macrocode}
 %
 % Copyright (c) 2019 Romano Giannetti
@@ -12,16 +13,17 @@
 \RequirePackage{pict2e}
 \RequirePackage{picture}
 \RequirePackage{pgfkeys} % for the pgfkeys
+\pgfkeys{/csteps/.is family}
 \pgfkeys{/csteps/inner ysep/.initial=4pt,
     /csteps/inner xsep/.initial=4pt,
     /csteps/inner color/.initial=none,
     /csteps/outer color/.initial=none,
 }
 \DeclareOption{redblue}{
-    \tikzset{/csteps/inner color=red, /csteps/outer color=blue}%
+    \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}%
 }
 \DeclareOption{legacy}{
-    \tikzset{/csteps/inner color=red, /csteps/outer color=blue}%
+    \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}%
 }
 
 % end of options definitions
@@ -38,6 +40,7 @@
     \csteps@YDepth=\dp\csteps@CBox\advance\csteps@YDepth by 0.5\csteps@tmplen\relax
     \csteps@YLength=\ht\csteps@CBox\advance\csteps@YLength by\dp\csteps@CBox\advance\csteps@YLength by\pgfkeysvalueof{/csteps/inner ysep}\relax
     % \typeout{DBG:#2\space X:\the\csteps@XLength\space Y:\the\csteps@YLength\space D:\the\csteps@YDepth}%
+    \typeout{DBG\space inner:\csteps@innercolor\space outer:\csteps@outercolor\space ARG2:#2}%
     \raisebox{-#1\csteps@YDepth}{%
     \ifdim\csteps@XLength>\csteps@YLength
     \makebox[\csteps@XLength]{% X bigger than Y
@@ -49,7 +52,7 @@
         }%
     \makebox(0,\csteps@YLength){%
         \put(-.5\wd\csteps@CBox,0){%
-            \ifx\csteps@outercolor\csteps@none
+            \ifx\csteps@innercolor\csteps@none
                 #2\relax%
             \else
                 \textcolor{\csteps@innercolor}{#2}%
@@ -66,7 +69,7 @@
         }%
     \makebox(0,\csteps@YLength){%
         \put(-.5\wd\csteps@CBox,0){%
-            \ifx\csteps@outercolor\csteps@none
+            \ifx\csteps@innercolor\csteps@none
                 #2\relax%
             \else
                 \textcolor{\csteps@innercolor}{#2}%
@@ -79,13 +82,21 @@
 %    \end{macrocode}
 % Main commands:
 %    \begin{macrocode}
-\def\Circled#1{\csteps@CircledParam{1}{#1}}
-\def\CircledTop#1{\csteps@CircledParam{0}{#1}}
-\newcommand{\CircledText}[1]{%
+\newcommand{\CircledParamOpts}[3]{%
     \begingroup
-    \tikzset{/csteps/inner color=none, /csteps/outer color=none}%
-    \Circled{#1}%
+        \pgfkeys{/csteps/.cd, #1}%
+        \ifmmode
+        \csteps@CircledParam{#2}{$#3$}%
+        \else
+        \csteps@CircledParam{#2}{#3}%
+        \fi
     \endgroup
+}
+
+\newcommand{\Circled}[2][]{\CircledParamOpts{#1}{1}{#2}}
+\newcommand{\CircledTop}[2][]{\CircledParamOpts{#1}{0}{#2}}
+\newcommand{\CircledText}[2][]{%
+    \CircledParamOpts{inner color=none, outer color=none, #1}{1}{#2}%
 }
 %    \end{macrocode}
 % Automatic counters code
