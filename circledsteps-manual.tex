@@ -52,10 +52,10 @@ The basic commands are:
     \toprule
     Circled[]\{\} & circled text using the package colors, text on the baseline\\
     CircledTop[]\{\} & circled text using the package colors, circle on the baseline\\
-    CircledText[]\{\} & circled text using the current color (may fail\footnotemark{} across pages break in headers/footers)\\
+    CircledText[]\{\} & circled text using the current color\footnotemark{}\\
     \bottomrule
 \end{tabular}
-\footnotetext{in the sense it can select the wrong color.}
+\footnotetext{it may fail when used in headers or footers, in the sense it can select the wrong color in case of page breaks.}
 
 The parameters for the output are controlled using \texttt{pgfkeys}; you can change them with \verb|\pgfkeys| or \verb|\tikzset|; you can obviously limit the effect of change using normal \LaTeX{} scoping rules. Also, you can specify parameters (without the initial \texttt{/csteps/} as optional arguments to the commands.
 
@@ -79,7 +79,7 @@ The usage of the package is better explained with examples.
 This is normal text: \Circled{1} is on the baseline, \CircledTop{2} is on top.\par
 This is more evident if you have descendents, like p: \Circled{p} and \CircledTop{p}.\par
 You can set options as optional arguments, like \Circled[inner color=red]{R} or \CircledTop[outer color=green]{g}.\par
-Math mode is detected too: \Circled{A} and $\Circled{A}$.
+Math mode is detected too: \Circled{A} and $\Circled{A}^{\Circled{A}}$.
 \end{LTXexample}
 
 
@@ -125,6 +125,17 @@ Or even you can have inline numbers like \CircledText{1} or
 exponents\textsuperscript{\CircledText{2}} and so on.
 \textcolor{red}{They follow the current color:  \CircledText{1} and \CircledText{2} automatically,} as you can see:  \CircledText{$1+1\approx3$}. In-text circled numbers look better when a bit smaller, though, as you can see in {\small\CircledText{1}} for example.
 \end{LTXexample}
+
+You can have also quite nice math mode effects, thanks to suggestion from \texttt{@tallmarmot}:
+
+\begin{LTXexample}
+    \[\Circled[outer color=red]{x}\]
+    \[\int\limits_{-1}^1\!\mathrm{d}x\,f_{\ell_1}(x)\]
+    \[\Circled[outer color=blue]{\int\limits_{-1}^1}\!
+        \Circled[outer color=orange]{\mathrm{d}x}
+    f_{\Circled[outer color=red]{\ell}_{\Circled[outer color=cyan]{1}}}(x)\]
+\end{LTXexample}
+
 
 No, you can't fill the circle/oval. Pull requests in that sense are welcome.
 

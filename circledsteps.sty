@@ -86,9 +86,20 @@
     \begingroup
         \pgfkeys{/csteps/.cd, #1}%
         \ifmmode
-        \csteps@CircledParam{#2}{$#3$}%
+            \mathchoice{%
+            \csteps@CircledParam{#2}{$\displaystyle #3$}%
+            }%
+            {%
+            \csteps@CircledParam{#2}{$\textstyle #3$}%
+            }%
+            {%
+            \csteps@CircledParam{#2}{$\scriptstyle #3$}%
+            }%
+            {%
+            \csteps@CircledParam{#2}{$\scriptscriptstyle #3$}%
+            }%
         \else
-        \csteps@CircledParam{#2}{#3}%
+            \csteps@CircledParam{#2}{#3}%
         \fi
     \endgroup
 }
