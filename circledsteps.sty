@@ -18,6 +18,7 @@
     /csteps/inner xsep/.initial=4pt,
     /csteps/inner color/.initial=none,
     /csteps/outer color/.initial=none,
+    /csteps/fill color/.initial=none,
 }
 \DeclareOption{redblue}{
     \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}%
@@ -28,6 +29,14 @@
 
 % end of options definitions
 \ProcessOptions\relax
+% thanks @egreg https://tex.stackexchange.com/a/523450/38080
+\RequirePackage{etoolbox}
+\newif\ifcstepsfilledovals\cstepsfilledovalsfalse
+\@ifpackageloaded{picture}{\patchcmd\PcOrg@@oval}{\patchcmd\@oval}
+  {\pIIe@strokeGraph}
+  {\ifcstepsfilledovals\pIIe@fillGraph\else\pIIe@strokeGraph\fi}
+  {}{}
+
 
 \newsavebox\csteps@CBox
 \newlength\csteps@XLength \newlength\csteps@YLength \newlength\csteps@YDepth \newlength\csteps@tmplen
@@ -35,6 +44,7 @@
     \edef\csteps@none{none}%
     \edef\csteps@outercolor{\pgfkeysvalueof{/csteps/outer color}}%
     \edef\csteps@innercolor{\pgfkeysvalueof{/csteps/inner color}}%
+    \edef\csteps@fillcolor{\pgfkeysvalueof{/csteps/fill color}}%
     \csteps@XLength=\wd\csteps@CBox\advance\csteps@XLength by\pgfkeysvalueof{/csteps/inner xsep}\relax
     \csteps@tmplen=\pgfkeysvalueof{/csteps/inner ysep}\relax
     \csteps@YDepth=\dp\csteps@CBox\advance\csteps@YDepth by 0.5\csteps@tmplen\relax
@@ -45,6 +55,10 @@
     \ifdim\csteps@XLength>\csteps@YLength
     \makebox[\csteps@XLength]{% X bigger than Y
         \makebox(0,\csteps@YLength){%
+            \ifx\csteps@fillcolor\csteps@none\else
+                \color{\csteps@fillcolor}%
+                {\cstepsfilledovalstrue\put(0,0){\oval(\csteps@XLength,\csteps@YLength)}}%
+            \fi
             \ifx\csteps@outercolor\csteps@none\else
                 \color{\csteps@outercolor}%
             \fi
@@ -62,6 +76,10 @@
     \else
     \makebox[\csteps@YLength]{%
         \makebox(0,\csteps@YLength){%
+            \ifx\csteps@fillcolor\csteps@none\else
+                \color{\csteps@fillcolor}%
+                \put(0,0){\circle*{\csteps@YLength}}%
+            \fi
             \ifx\csteps@outercolor\csteps@none\else
                 \color{\csteps@outercolor}%
             \fi

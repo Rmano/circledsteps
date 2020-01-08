@@ -36,11 +36,13 @@ This package was born thanks to the discussion on \href{https://tex.stackexchang
 
 This package provides two things: the first one, macros to generate the circled text that use the original \texttt{pict2e} method, and then a (simple, to be taken as an example) set of macro to generate sequential circled numbers that can be referenced afterward.
 
-The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{pictures}, \texttt{xcolor} and \texttt{pgfkeys} (the latter one is automatically loaded by \texttt{tikz}; you do not need \texttt{tikz} to use just \texttt{circledsteps}).
+The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{pictures}, \texttt{xcolor} and \texttt{pgfkeys} (the latter one is automatically loaded by \texttt{tikz}; you do not need \texttt{tikz} to use just \texttt{circledsteps}). Moreover, \texttt{etoolbox} is loaded to modify \texttt{pict2e} to have filled ovals.
 
 The manual is for version~\cstepsversion. The main changes between version are listed below.
 \begin{description}
     \item[v1.2] Added optional argument to the commands and make them sensitive to math mode (thanks to \texttt{@tallmarmot} for the suggestion and example code); fixed several bugs.
+
+        Added \texttt{fill color} for the circles background.
     \item[v1.1] Default to normal colors; keep the ``red/blue'' theme as optional.
         If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
         \begin{lstlisting}[]
@@ -75,6 +77,7 @@ The pseudo-color \texttt{none} means that the current color is used for both the
     /csteps/inner xsep  & horizontal spacing & 4pt\\
     /csteps/inner color & color of the text  & none\\
     /csteps/outer color & color of the circle & none\\
+    /csteps/fill color & background color of the circle & none\\
     \bottomrule
 \end{tabular}
 
@@ -122,11 +125,18 @@ If you want to change colors it's easy:
 \par\bigskip
 \end{LTXexample}
 
-
+\begin{LTXexample}
+\pgfkeys{/csteps/inner color=white}
+\pgfkeys{/csteps/outer color=red}
+\pgfkeys{/csteps/fill color=black}
+And you can have filled circles and ovals:
+\Circled{\textbf{1}} \Circled{\textbf{199}}.
+\par\bigskip
+\end{LTXexample}
 
 
 \begin{LTXexample}
-Or even you can have inline numbers like \CircledText{1} or
+You can have inline numbers like \CircledText{1} or
 exponents\textsuperscript{\CircledText{2}} and so on.
 \textcolor{red}{They follow the current color:  \CircledText{1} and \CircledText{2} automatically,} as you can see:  \CircledText{$1+1\approx3$}. In-text circled numbers look better when a bit smaller, though, as you can see in {\small\CircledText{1}} for example.
 \end{LTXexample}
@@ -141,8 +151,6 @@ You can have also quite nice math mode effects, thanks to suggestion from \textt
     f_{\Circled[outer color=red]{\ell}_{\Circled[outer color=cyan]{1}}}(x)\]
 \end{LTXexample}
 
-
-No, you can't fill the circle/oval. Pull requests in that sense are welcome.
 
 \section{Automatically generated numbers}
 
