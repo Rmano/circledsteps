@@ -35,7 +35,12 @@
 \@ifpackageloaded{picture}{\patchcmd\PcOrg@@oval}{\patchcmd\@oval}
   {\pIIe@strokeGraph}
   {\ifcstepsfilledovals\pIIe@fillGraph\else\pIIe@strokeGraph\fi}
-  {}{}
+  {}{%
+  \PackageWarningNoLine{circledsteps}{%
+      Failed to patch either picture.sty or pict2e.sty:\MessageBreak
+      \space\space oval shapes will not be filled.
+  }
+  }
 
 
 \newsavebox\csteps@CBox
@@ -56,8 +61,8 @@
     \makebox[\csteps@XLength]{% X bigger than Y
         \makebox(0,\csteps@YLength){%
             \ifx\csteps@fillcolor\csteps@none\else
-                \color{\csteps@fillcolor}%
-                {\cstepsfilledovalstrue\put(0,0){\oval(\csteps@XLength,\csteps@YLength)}}%
+                {\color{\csteps@fillcolor}%
+                \cstepsfilledovalstrue\put(0,0){\oval(\csteps@XLength,\csteps@YLength)}}%
             \fi
             \ifx\csteps@outercolor\csteps@none\else
                 \color{\csteps@outercolor}%
@@ -77,8 +82,8 @@
     \makebox[\csteps@YLength]{%
         \makebox(0,\csteps@YLength){%
             \ifx\csteps@fillcolor\csteps@none\else
-                \color{\csteps@fillcolor}%
-                \put(0,0){\circle*{\csteps@YLength}}%
+                {\color{\csteps@fillcolor}%
+                \put(0,0){\circle*{\csteps@YLength}}}%
             \fi
             \ifx\csteps@outercolor\csteps@none\else
                 \color{\csteps@outercolor}%
