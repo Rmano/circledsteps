@@ -1,7 +1,7 @@
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}[1996/06/01]
-\ProvidesPackage{circledsteps}[2020/01/12 v1.3 Circled steps that you can reference]
-\def\cstepsversion{v1.3}
+\ProvidesPackage{circledsteps}[2020/01/12 v1.3.1 Circled steps that you can reference]
+\def\cstepsversion{v1.3.1}
 %    \end{macrocode}
 %
 % Copyright (c) 2019 Romano Giannetti
@@ -10,6 +10,7 @@
 % License: LPPL 1.3c
 %
 %    \begin{macrocode}
+\RequirePackage{xcolor}
 \RequirePackage{pict2e}
 \RequirePackage{picture}
 \RequirePackage{pgfkeys} % for the pgfkeys
@@ -31,6 +32,9 @@
 \ProcessOptions\relax
 % thanks @egreg https://tex.stackexchange.com/a/523450/38080
 \RequirePackage{etoolbox}
+% patch either picture.sty or pict2e.sty to add the possibility
+% to fill oval shapes. Will break as soon as that option is added
+% to either package...
 \newif\ifcstepsfilledovals\cstepsfilledovalsfalse
 \@ifpackageloaded{picture}{\patchcmd\PcOrg@@oval}{\patchcmd\@oval}
   {\pIIe@strokeGraph}
@@ -39,8 +43,8 @@
   \PackageWarningNoLine{circledsteps}{%
       Failed to patch either picture.sty or pict2e.sty:\MessageBreak
       \space\space oval shapes will not be filled.
-  }
-  }
+  }%
+}
 
 
 \newsavebox\csteps@CBox
