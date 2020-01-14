@@ -23,3 +23,6 @@ If you clone the repository, you can use
     make local-install
 
 to install the package on [your local TEXMF tree](https://tex.stackexchange.com/questions/1137/where-do-i-place-my-own-sty-or-cls-files-to-make-them-available-to-all-my-te).
+
+To compile the documentation from the source code repository you need to have `latexmk` installed (it is *not* needed to use the package, though.)
+
