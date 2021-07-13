@@ -87,12 +87,12 @@
         \makebox(0,\csteps@YLength){%
             \ifx\csteps@fillcolor\csteps@none\else
                 {\color{\csteps@fillcolor}%
-                \put(0,0){\circle*{\csteps@YLength}}}%
+                \put(0,0){\circle*{\strip@pt\csteps@YLength}}}%
             \fi
             \ifx\csteps@outercolor\csteps@none\else
                 \color{\csteps@outercolor}%
             \fi
-            \put(0,0){\circle{\csteps@YLength}}%
+            \put(0,0){\circle{\strip@pt\csteps@YLength}}%
         }%
     \makebox(0,\csteps@YLength){%
         \put(-.5\wd\csteps@CBox,0){%
