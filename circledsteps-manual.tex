@@ -10,17 +10,26 @@
     cute inductors,
 }
 \usepackage{booktabs}
+\usepackage{showexpl}
+\usepackage{accsupp} % Thanks to Ulrike Fischer https://tex.stackexchange.com/a/57160/38080
+\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}%
+\lstset{explpreset={pos=l, overhang=0pt,hsep=\columnsep,vsep=\bigskipamount,
+    rframe=single,numbers=left,numberstyle=\tiny,numbersep=.3em, xleftmargin=1em,
+    columns=flexible, language=[LaTeX]TEX,breaklines=true,
+    basicstyle=\small\ttfamily,tabsize=3, width=0.4\linewidth,
+    numberstyle=\tiny\color{gray}\emptyaccsupp}}
+% there must be a better way
+\lstset{pos=l, overhang=0pt,hsep=\columnsep,vsep=\bigskipamount,
+    rframe=single,numbers=left,numberstyle=\tiny,numbersep=.3em, xleftmargin=1em,
+    columns=flexible, language=[LaTeX]TEX,breaklines=true,
+    basicstyle=\small\ttfamily,tabsize=3, width=0.4\linewidth,
+    numberstyle=\tiny\color{gray}\emptyaccsupp}
+\usepackage{circledsteps}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,  % false: boxed links; true: colored links
     linkcolor=blue,           % color of internal links
     urlcolor=blue,            % color of external links
 }
-\usepackage{showexpl}
-\lstset{pos=l, overhang=0pt,hsep=\columnsep,vsep=\bigskipamount,
-    rframe=single,numbers=left,numberstyle=\tiny,numbersep=.3em, xleftmargin=1em,
-    columns=flexible, language=[LaTeX]TEX,breaklines=true,
-    basicstyle=\small\ttfamily,tabsize=3, width=0.4\linewidth}
-\usepackage{circledsteps}
 
 \title{The \texttt{circledsteps} package: circled numbers, circled steps and more}
 \author{Romano Giannetti <romano.giannetti@gmail.com>}
@@ -40,13 +49,13 @@ The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{
 
 The manual is for version~\cstepsversion. The main changes between version are listed below.
 \begin{description}
-    \item[v1.3] Minor fixes to the manual; added a warning in case the patching of \texttt{picture.sty} fails.
+    \item[v1.3.x] Fixes to the manual; added a warning in case the patching of \texttt{pict2e.sty} fails.
     \item[v1.2] Added optional argument to the commands and make them sensitive to math mode (thanks to \texttt{@tallmarmot} for the suggestion and example code); fixed several bugs.
 
         Added \texttt{fill color} for the circles background.
     \item[v1.1] Default to normal colors; keep the ``red/blue'' theme as optional.
         If you use the package option \texttt{redblue} or \texttt{legacy} you will have the same effect than
-        \begin{lstlisting}[]
+        \begin{lstlisting}
     \pgfkeys{/csteps/inner color=red, /csteps/outer color=blue}
         \end{lstlisting}
     \item[v1.0] Initial release.
@@ -86,15 +95,24 @@ The usage of the package is better explained with examples.
 
 
 \begin{LTXexample}
-This is normal text: \Circled{1} is on the baseline, \CircledTop{2} is on top.\par
-This is more evident if you have descendents, like p: \Circled{p} and \CircledTop{p}.\par
-You can set options as optional arguments, like \Circled[inner color=red]{R} or \CircledTop[outer color=green]{g}.\par
-Math mode is detected too: \Circled{A} and $\Circled{A}^{\Circled{A}}$.
+This is normal text: \Circled{1} is on the
+baseline, \CircledTop{2} is on top.
+
+This is more evident if you have descenders,
+like p: \Circled{p} and \CircledTop{p}.
+
+You can set options as optional arguments,
+like \Circled[inner color=red]{R} or
+\CircledTop[outer color=green]{g}.
+
+Math mode is detected too: \Circled{A}
+and $\Circled{A}^{\Circled{A}}$.
 \end{LTXexample}
 
 
 \begin{LTXexample}
-For big horizontal things the circle becomes oval: \Circled{200} or \CircledTop{199}.
+For big horizontal things the circle becomes
+oval: \Circled{200} or \CircledTop{199}.
 \end{LTXexample}
 
 
@@ -114,16 +132,16 @@ Inside \texttt{tikz} they work ok:
 \pgfkeys{/csteps/inner ysep=10pt}
 \pgfkeys{/csteps/inner xsep=10pt}
 If you like more breathing space:
-\Circled{1}  \Circled{2} \Circled{p} \Circled{200} \Circled{199}.
-\par\bigskip
+\Circled{1}  \Circled{2} \Circled{p}
+\Circled{200} \Circled{199}.
 \end{LTXexample}
 
 \begin{LTXexample}
-\pgfkeys{/csteps/inner color=green}
+\pgfkeys{/csteps/inner color=green!50!black}
 \pgfkeys{/csteps/outer color=gray}
 If you want to change colors it's easy:
-\Circled{1}  \Circled{2} \Circled{p} \Circled{200} \Circled{199}.
-\par\bigskip
+\Circled{1}  \Circled{2} \Circled{p}
+\Circled{200} \Circled{199}.
 \end{LTXexample}
 
 \begin{LTXexample}
@@ -132,24 +150,34 @@ If you want to change colors it's easy:
 \pgfkeys{/csteps/fill color=black}
 And you can have filled circles and ovals:
 \Circled{\textbf{1}} \Circled{\textbf{199}}.
-\par\bigskip
 \end{LTXexample}
 
 
 \begin{LTXexample}
-You can have inline numbers like \CircledText{1} or
-exponents\textsuperscript{\CircledText{2}} and so on.
-\textcolor{red}{They follow the current color:  \CircledText{1} and \CircledText{2} automatically,} as you can see:  \CircledText{$1+1\approx3$}. In-text circled numbers look better when a bit smaller, though, as you can see in {\small\CircledText{1}} for example.
+You can have inline numbers like \CircledText{1}
+or exponents\textsuperscript{\CircledText{2}}
+and so on.
+\textcolor{red}{They follow the current color:
+   \CircledText{1} and \CircledText{2}
+automatically,} as you can see here:
+\CircledText{$1+1\approx3$}.
+In-text circled numbers look better when
+they are a bit smaller, though, as you
+can see in {\small\CircledText{1}}
+for example.
 \end{LTXexample}
 
 You can have also quite nice math mode effects, thanks to suggestion from \texttt{@tallmarmot}:
 
 \begin{LTXexample}
-    \[\Circled[outer color=red]{x}\]
-    \[\int\limits_{-1}^1\!\mathrm{d}x\,f_{\ell_1}(x)\]
-    \[\Circled[outer color=blue]{\int\limits_{-1}^1}\!
-        \Circled[outer color=orange]{\mathrm{d}x}
-    f_{\Circled[outer color=red]{\ell}_{\Circled[outer color=cyan]{1}}}(x)\]
+\[\Circled[outer color=red]{x}\]
+\[\int\limits_{-1}^1\!
+    \mathrm{d}x\,f_{\ell_1}(x)\]
+\[\Circled[outer color=blue]{%
+    \int\limits_{-1}^1}\!
+    \Circled[outer color=orange]{\mathrm{d}x}
+f_{\Circled[outer color=red]{\ell}_{%
+    \Circled[outer color=cyan]{1}}}(x)\]
 \end{LTXexample}
 
 

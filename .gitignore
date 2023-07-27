@@ -35,6 +35,8 @@ circledsteps/*
 *.idv
 *.ptc
 *.bak
+# boh?
+*.hd
 # vim swap files
 *.swp
 
