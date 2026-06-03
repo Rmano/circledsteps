@@ -1,10 +1,10 @@
 %    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}[1996/06/01]
-\ProvidesPackage{circledsteps}[2023/08/11 v1.3.3 Circled steps that you can reference]
-\def\cstepsversion{v1.3.3}
+\ProvidesPackage{circledsteps}[2026/06/03 v1.4 Circled numbers that you can reference]
+\def\cstepsversion{v1.4}
 %    \end{macrocode}
 %
-% Copyright (c) 2019-2023 Romano Giannetti
+% Copyright (c) 2019-2026 Romano Giannetti
 % Heavily helped by @marmot and other on
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
 % License: LPPL 1.3c
@@ -12,7 +12,16 @@
 %    \begin{macrocode}
 \RequirePackage{xcolor}
 \RequirePackage{pict2e}
-\RequirePackage{picture}
+%
+% if format is so old we don't have \IfFormat... surely it's false
+\providecommand\IfFormatAtLeastTF[3]{#3}
+%
+\IfFormatAtLeastTF{2024-01-11}{% https://github.com/ho-tex/picture/pull/3
+    % do nothing, picture is in the format now, thanks to Ulrike Fischer
+}{% load picture
+    \RequirePackage{picture}
+}
+%
 \RequirePackage{pgfkeys} % for the pgfkeys
 \pgfkeys{/csteps/.is family}
 \pgfkeys{/csteps/inner ysep/.initial=4pt,
@@ -32,18 +41,31 @@
 \ProcessOptions\relax
 % thanks @egreg https://tex.stackexchange.com/a/523450/38080
 \RequirePackage{etoolbox}
-% patch either picture.sty or pict2e.sty to add the possibility
-% to fill oval shapes. Will break as soon as that option is added
-% to either package...
+% patch either picture.sty (older LaTeX) or pict2e.sty to add the possibility
+% to fill oval shapes.
+% It will break as soon as that option is added to either package...
 \newif\ifcstepsfilledovals\cstepsfilledovalsfalse
-\@ifpackageloaded{picture}{\patchcmd\PcOrg@@oval}{\patchcmd\@oval}
-  {\pIIe@strokeGraph}
-  {\ifcstepsfilledovals\pIIe@fillGraph\else\pIIe@strokeGraph\fi}
-  {}{%
-  \PackageWarningNoLine{circledsteps}{%
-      Failed to patch either picture.sty or pict2e.sty:\MessageBreak
-      \space\space oval shapes will not be filled.
-  }%
+% if the format is new, just patch \@oval, no need to test, picture is built-in
+\IfFormatAtLeastTF{2024-01-11}{% https://github.com/ho-tex/picture/pull/3
+    \patchcmd\@oval
+      {\pIIe@strokeGraph}
+      {\ifcstepsfilledovals\pIIe@fillGraph\else\pIIe@strokeGraph\fi}{}{%
+      \PackageWarningNoLine{circledsteps}{%
+          Failed to patch either picture.sty or pict2e.sty:\MessageBreak
+          \space\space oval shapes will not be filled.
+      }%
+  }
+}{
+    % else, if the format is older, we patch either picture or pict2e
+    \@ifpackageloaded{picture}{\patchcmd\PcOrg@@oval}{\patchcmd\@oval}
+      {\pIIe@strokeGraph}
+      {\ifcstepsfilledovals\pIIe@fillGraph\else\pIIe@strokeGraph\fi}
+      {}{%
+      \PackageWarningNoLine{circledsteps}{%
+          Failed to patch either picture.sty or pict2e.sty:\MessageBreak
+          \space\space oval shapes will not be filled.
+      }%
+    }
 }
 
 

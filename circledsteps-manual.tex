@@ -49,6 +49,9 @@ The package loads (if not already loaded) the packages \texttt{pict2e}, \texttt{
 
 The manual is for version~\cstepsversion. The main changes between version are listed below.
 \begin{description}
+    \item[v1.4] Adapted to newer LaTeX releases; \texttt{picture.sty} has been embedded in the kernel, which caused a failure resulting in unfilled ovals (not that anybody noticed).
+
+        Thanks to Ulrike Fischer for helping with the issue.
     \item[v1.3.x] Fixes to the manual; added a warning in case the patching of \texttt{pict2e.sty} fails.
     \item[v1.2] Added optional argument to the commands and make them sensitive to math mode (thanks to \texttt{@tallmarmot} for the suggestion and example code); fixed several bugs.
 
